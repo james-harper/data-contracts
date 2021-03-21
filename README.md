@@ -212,8 +212,8 @@ source console/scripts/cli_autocompletion.sh
 ## Notes
 - Since `DataContracts` do not change until there is an update to this package, they are a good candidate to be cached. There is an in-built caching support. By default `Illuminate\Cache` is used with the `file` driver, but any PSR-16 compliant cache can be set with `DataContract::setCache($cache)`
 - It is recommended to alias `DataContracts` to have a `Contract` suffix to avoid them being confused with models. For example: `use DataContracts\Transaction as TransactionContract`. A statement like `Transaction::all()` would be valid for both an Eloquent model and a DataContract. `TransactionContract::all()` makes it much easier to tell at a glance.
-- Any directories that are using PSR-4 autoloading (`console/`, `src/`, `tests/`)
-- `composer test` can be used to run the test suite for this repository. It is recommended to add a simple test when adding or updating a Data Contract just as a sanity check. See `tests/JsonTest.php` for an example.
+- In order to avoid autoloading issues, any sub-directories within directories that are configured to use PSR-4 autoloading (`console/`, `src/`, `tests/`) should begin with an uppercase letter. Folders that are not intended to contain any `.php` files (such as `console/scripts`) do not need to follow this rule.
+- `composer test` can be used to run the whole test suite or the CLI test command can be used `php cli test cache,contracts,rules,schemas,validation` to run just a specific group of tests.
 - JSON Schema dates/times can be quite fiddly at times. Here are some examples of the formats that can be used. `"full-date full-time"` will match `"Y-m-d h:i:s"`. `"date-time"` expects a T between the date and time portions.
 ```
 date-fullyear   = 4DIGIT
