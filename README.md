@@ -6,6 +6,13 @@ This was originally designed for use with Laravel projects in mind, so there
 are some Laravel-specific convenience methods - dealing with validation rules or
 automatically converting to API resources, for example.
 
+`Todo` and `User` data contracts have been included as examples.
+The following commands can be run to remove all traces of them.
+
+```shell
+php cli delete:contract Todo
+php cli delete:contract User
+```
 ## Installation
 
 This can be included in other packages via composer.
