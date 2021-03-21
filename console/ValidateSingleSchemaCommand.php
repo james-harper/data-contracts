@@ -31,7 +31,7 @@ class ValidateSingleSchemaCommand extends BaseCommand
     protected function configure() : void
     {
         $this->setDescription('Validates a JSON schema against the specification.')
-            ->addArgument('name', InputArgument::REQUIRED, 'Name of schema to validate');
+            ->addArgument('name', InputArgument::OPTIONAL, 'Name of schema to validate');
     }
 
     /**
@@ -44,12 +44,25 @@ class ValidateSingleSchemaCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         try {
+            $name = $input->getArgument('name');
+            // Input argument required validation is being done manually so
+            // that we have control over the error message.
+            // This allows us to be helpful and list all of the available
+            // options if 'name' is missing
+            if (!$name) {
+                $this->printValidationError($output);
+                return Command::FAILURE;
+            }
+
             $name = strtolower($input->getArgument('name'));
             $contract = $this->ensureExtensionIsPresent($name, '.json');
 
             if (!$this->doesContractExist($contract)) {
+                $output->line();
                 $output->warn("$contract schema does not exist");
-                if (Str::endsWith($name, 's')) {
+
+                $name = str_replace('.json', '', $name);
+                if (in_array($name, $this->getSchemasPlural())) {
                     $singular = $this->ensureExtensionIsPresent(
                         Str::singular($name),
                         '.json'
@@ -72,6 +85,7 @@ class ValidateSingleSchemaCommand extends BaseCommand
                     }
                 }
 
+                $this->printAvailableOptions($output);
                 return Command::FAILURE;
             }
 
@@ -84,6 +98,60 @@ class ValidateSingleSchemaCommand extends BaseCommand
             $output->danger($e->getMessage());
             return Command::FAILURE;
         }
+    }
+
+    /**
+     * Get list of all registered schemas, but in plural form
+     *
+     * @return array
+     */
+    protected function getSchemasPlural() : array
+    {
+        return array_map(function ($name) {
+            $name = str_replace('.json', '', $name);
+            return Str::plural($name, 2);
+        }, ValidateSchemasCommand::getAllSchemas());
+    }
+
+    /**
+     * Print missing argument validation error.
+     * - Since there is only one possible argument, it is fine to hard-code the message
+     *
+     * @param ConsoleOutput $output
+     * @return void
+     */
+    protected function printValidationError(ConsoleOutput $output) : void
+    {
+        $output->line();
+        $message = str_pad('    Not enough arguments (missing: "name").', 80);
+        $messageStyle = [
+            ConsoleOutput::FOREGROUND => ConsoleOutput::COLOUR_WHITE,
+            ConsoleOutput::BACKGROUND => ConsoleOutput::COLOUR_RED,
+        ];
+        $lineStyle = [
+            ConsoleOutput::FOREGROUND => ConsoleOutput::COLOUR_RED,
+            ConsoleOutput::BACKGROUND => ConsoleOutput::COLOUR_RED,
+        ];
+        $output->titleBlock($message, $messageStyle, $lineStyle);
+        $this->printAvailableOptions($output);
+    }
+
+    /**
+     * Print all registered schemas - to point user in the right direction when
+     * they have entered an invalid option
+     *
+     * @param ConsoleOutput $output
+     * @return void
+     */
+    protected function printAvailableOptions(ConsoleOutput $output) : void
+    {
+        $schemas = ValidateSchemasCommand::getAllSchemas();
+        $output->line();
+        $output->warn('Schema should be one of the following: ', [], true);
+        foreach ($schemas as $option) {
+            $output->print("- $option");
+        }
+        $output->line();
     }
 
     /**

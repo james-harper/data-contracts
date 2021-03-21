@@ -45,6 +45,17 @@ class ValidateSchemasCommand extends BaseCommand
     }
 
     /**
+     * Get all registered schema types
+     *
+     * @return array
+     */
+    public static function getAllSchemas() : array
+    {
+        $instance = new static;
+        return $instance->schemas;
+    }
+
+    /**
      * Executes the current command
      *
      * @param InputInterface $input
