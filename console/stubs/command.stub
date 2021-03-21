@@ -1,0 +1,46 @@
+<?php
+
+namespace DataContracts\Console;
+
+DummyImports
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputArgument;
+use DataContracts\Console\Utilities\Formatting\ConsoleOutput;
+
+/**
+ * Create a new DummyName
+ */
+class DummyCommand extends DummyBaseClass
+{
+    /**
+     * The name of the command
+     *
+     * @var string
+     */
+    protected static $defaultName = 'DummyTitle';
+
+    /**
+     * Configures the current command
+     *
+     * @return void
+     */
+    protected function configure() : void
+    {
+        $this->setDescription('DummyHelp')
+            ->addArgument('name', InputArgument::OPTIONAL, 'Name of the DummyName');
+    }
+
+    /**
+     * Executes the current command
+     *
+     * @param InputInterface $input
+     * @param ConsoleOutput $output
+     * @return int
+     */
+    protected function execute(InputInterface $input, OutputInterface $output) : int
+    {
+        DummyExecute
+    }
+}

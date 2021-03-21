@@ -1,0 +1,11 @@
+try {
+    $name = ucfirst($input->getArgument('name'));
+    $output->success("Successfully ran $name command");
+    return Command::SUCCESS;
+} catch (FileAlreadyExistsException $e) {
+    $output->warn(':lock: ' . $e->getMessage());
+    return Command::SUCCESS;
+} catch (\Exception $e) {
+    $output->danger($e->getMessage());
+    return Command::FAILURE;
+}

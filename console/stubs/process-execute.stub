@@ -1,0 +1,12 @@
+try {
+    $process = new Process(['ls', '-lash']);
+    $process->run();
+    if (!$process->isSuccessful()) {
+        throw new ProcessFailedException($process);
+    }
+    $output->writeln($process->getOutput());
+    return Command::SUCCESS;
+} catch (\Exception $e) {
+    $output->danger($e->getMessage());
+    return Command::FAILURE;
+}

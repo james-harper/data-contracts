@@ -1,0 +1,56 @@
+{
+  "name": "james-harper/data-contracts",
+  "description": "Creating shareable data contracts based on JSON schema",
+  "type": "library",
+  "require": {
+    "php": "^7.3|^8.0",
+    "illuminate/cache": "^8.12",
+    "illuminate/container": "^8.12",
+    "illuminate/database": "^8.12",
+    "illuminate/filesystem": "^8.12",
+    "illuminate/http": "^8.12",
+    "opis/json-schema": "^1.0.19",
+    "psr/simple-cache": "^1.0",
+    "symfony/console": "^5.2",
+    "symfony/process": "^5.2"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^2.18",
+    "mockery/mockery": "^1.4.2",
+    "pestphp/pest": "^1.0"
+  },
+  "authors": [
+    {
+      "name": "James Harper",
+      "email": "jameswilliamharper@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "DataContracts\\": "src/",
+      "DataContracts\\Console\\": "console/"
+    },
+    "classmap": [
+      "src/",
+      "console/"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "DataContracts\\Tests\\": "tests/"
+    },
+    "classmap": [
+      "tests/"
+    ]
+  },
+  "scripts": {
+    "test": "vendor/bin/pest",
+    "lint": [
+      "vendor/bin/php-cs-fixer fix --dry-run --config=.php_cs -vv"
+    ],
+    "lint:fix": [
+      "vendor/bin/php-cs-fixer fix --config=.php_cs -vv"
+    ]
+  }
+}

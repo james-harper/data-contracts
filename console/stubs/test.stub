@@ -1,0 +1,6 @@
+
+it('can create a valid DummyResource contract', function () {
+    $this->assertEquals(DummyClass::describe(), [
+        'name',
+    ]);
+});

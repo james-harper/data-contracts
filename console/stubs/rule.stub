@@ -1,0 +1,37 @@
+<?php
+
+namespace DataContracts\Rules;
+
+use DataContracts\Schema\Constants\Option;
+use DataContracts\Schema\Constants\Type;
+
+/**
+ * DummyRule validation rule
+ * @see https://laravel.com/docs/8.x/validation#rule-DummyHash
+ */
+class DummyRule extends Rule
+{
+    /**
+     * Checks if the rule should be applied
+     *
+     * @return boolean
+     */
+    public function check() : bool
+    {
+        if (!$this->property->isOfType(Type::STRING)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Get the name that Laravel uses for this rule
+     *
+     * @return string
+     */
+    public function getLaravelName() : string
+    {
+        return LaravelRule::DummyConstant;
+    }
+}

@@ -1,0 +1,1 @@
+This is a command to set a namespace

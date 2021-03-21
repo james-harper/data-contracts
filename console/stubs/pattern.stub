@@ -1,0 +1,45 @@
+<?php
+
+namespace DataContracts\Console\Utilities\Formatting\Patterns;
+
+use DataContracts\Console\Utilities\Formatting\ConsoleOutput;
+
+/**
+ * Highlight a word in the console output
+ */
+class DummyPattern implements PatternInterface
+{
+    /**
+     * Regex to check if pattern should be applied.
+     *
+     * @return string
+     */
+    public function getRegex() : string
+    {
+        return '/DummyOpen([0-9A-Za-z_\\\\\/\.: \$]+)DummyClose/';
+    }
+
+    /**
+     * Get the styles that should be applied when the pattern matches
+     *
+     * @return array
+     */
+    public function getStyles() : array
+    {
+        return [
+            ConsoleOutput::FOREGROUND =>  ConsoleOutput::COLOUR_WHITE,
+            ConsoleOutput::BACKGROUND =>  ConsoleOutput::COLOUR_GREEN,
+        ];
+    }
+
+    /**
+     * Get the delimiters used to separate the highlighted word from the rest
+     * of the text
+     *
+     * @return array
+     */
+    public function getDelimiters() : array
+    {
+        return ['DummyOpen', 'DummyClose'];
+    }
+}

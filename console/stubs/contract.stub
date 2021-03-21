@@ -1,0 +1,10 @@
+<?php
+
+namespace DataContracts;
+
+use DataContracts\DataContract;
+
+class DummyClass extends DataContract
+{
+    protected $schema = 'data/DummyFile.json';
+}
