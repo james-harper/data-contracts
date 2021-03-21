@@ -88,23 +88,23 @@ Each DataContract has a static `describe()` method which will return all of the 
 There is also a `validationRules()` method that can be used to get any [validation rules](https://laravel.com/docs/8.x/validation#available-validation-rules) for the contract. These should use [Laravel validation rules]((https://laravel.com/docs/8.x/validation#available-validation-rules)) so that the output can be used directly for Request validation in Laravel projects. Transformers must be applied to get valid Laravel rules from a JSON Schema: these can be found in `src/Rules`.
 
 ```php
-use DataContracts\Transaction;
+use DataContracts\User as UserContract;
 
-Transaction::describe();
-// ['account_id', 'type', 'quantity', 'date']
-Transaction::all();
-// ['id','account_id', 'type', 'quantity', 'date']
-Transaction::validationRules();
-// ['account_id' => ['required']...]
+UserContract::describe();
+// ['first_name', 'last_name', 'email', 'role']
+UserContract::all();
+// ['first_name', 'last_name', 'email', 'role']
+UserContract::validationRules();
+// ['first_name' => ['required']...]
 ```
 
 Some helpers exist to make working with validation rules easier.
 `validationRulesOptional()` gets all rules but removes any `required` rules. This is useful for partial updates when not all fields would be expected. And `rulesExcept($rule)` can be used to filter out the chosen rule.
 ```php
-Transaction::validationRulesOptional();
+UserContract::validationRulesOptional();
 // ['account_id' => ['numeric']...]
-Transaction::rulesExcept('numeric');
-Transaction::rulesExcept(['numeric', 'min'])
+UserContract::rulesExcept('numeric');
+UserContract::rulesExcept(['numeric', 'min'])
 ```
 
 DataContracts can be used anywhere, but should be defined in this repository for shareability purposes.
@@ -128,10 +128,10 @@ Simarly, DataContracts can be used to filter [Laravel API Resources](https://lar
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource {
-  public function toArray()
-  {
-    return UserContract::fromResource($this);
-  }
+    public function toArray()
+    {
+        return UserContract::fromResource($this);
+    }
 }
 ```
 
@@ -140,12 +140,12 @@ If any additional transformation needs to be performed, it is a case of simply o
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource {
-  public function toArray()
-  {
-    $user = UserContract::fromResource($this);
-    $user['name'] = strtoupper($this->name);
-    return $user;
-  }
+    public function toArray()
+    {
+        $user = UserContract::fromResource($this);
+        $user['name'] = strtoupper($this->name);
+        return $user;
+    }
 }
 ```
 
@@ -211,7 +211,7 @@ source console/scripts/cli_autocompletion.sh
 
 ## Notes
 - Since `DataContracts` do not change until there is an update to this package, they are a good candidate to be cached. There is an in-built caching support. By default `Illuminate\Cache` is used with the `file` driver, but any PSR-16 compliant cache can be set with `DataContract::setCache($cache)`
-- It is recommended to alias `DataContracts` to have a `Contract` suffix to avoid them being confused with models. For example: `use DataContracts\Transaction as TransactionContract`. A statement like `Transaction::all()` would be valid for both an Eloquent model and a DataContract. `TransactionContract::all()` makes it much easier to tell at a glance.
+- It is recommended to alias `DataContracts` to have a `Contract` suffix to avoid them being confused with models. For example: `use DataContracts\User as UserContract`. A statement like `User::all()` would be valid for both an Eloquent model and a DataContract. `UserContract::all()` makes it much easier to tell at a glance.
 - In order to avoid autoloading issues, any sub-directories within directories that are configured to use PSR-4 autoloading (`console/`, `src/`, `tests/`) should begin with an uppercase letter. Folders that are not intended to contain any `.php` files (such as `console/scripts`) do not need to follow this rule.
 - `composer test` can be used to run the whole test suite or the CLI test command can be used `php cli test cache,contracts,rules,schemas,validation` to run just a specific group of tests.
 - JSON Schema dates/times can be quite fiddly at times. Here are some examples of the formats that can be used. `"full-date full-time"` will match `"Y-m-d h:i:s"`. `"date-time"` expects a T between the date and time portions.
