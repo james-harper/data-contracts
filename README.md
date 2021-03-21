@@ -177,6 +177,11 @@ The following commands can be used:
     - `php cli test cache`
     - `php cli test rules,schemas`
     - `php cli test cache,contracts,rules,schemas,validation`
+- Update CHANGELOG.md
+    - `php cli update:changelog`
+    - `php cli changelog`
+    - `php cli make:log`
+    - `php cli generate:log`
 - Validate JSON Schema
     - `php cli validate:schema <name>`
     - `php cli validate <name>`
