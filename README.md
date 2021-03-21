@@ -2,7 +2,12 @@
 
 Data contracts defined here can be shared between multiple services.
 
+This was originally designed for use with Laravel projects in mind, so there
+are some Laravel-specific convenience methods - dealing with validation rules or
+automatically converting to API resources, for example.
+
 ## Installation
+
 This can be included in other packages via composer.
 
 ## Defining Contracts
