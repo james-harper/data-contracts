@@ -17,6 +17,14 @@ php cli delete:contract User
 
 This can be included in other packages via composer.
 
+```shell
+composer require james-harper/data-contracts:^1.0
+```
+
+For any serious use, it is recommended to fork this repository and add data
+contracts that are appropriate to the domain you are working on.
+And then use the forked version via `composer`.
+
 ## Defining Contracts
 
 A data contract is defined in a JSON file which follows the [JSON Schema](https://json-schema.org/) specification.
