@@ -1,10 +1,11 @@
-This is a command to update the `CHANGELOG`.
+This is a command to update `CHANGELOG.md` to reflect any recent updates to
+the project.
 
-`CHANGELOG.md` content will be automatically generated based on
-git history.
+{CHANGELOG} content will be automatically generated based on git history.
+
 The {CHANGELOG} format is based on {Keep A Changelog} and git commits
 in this project follow the {Conventional Commits} standard.
-This allows us to generate an pleasant-looking and easy to follow log.
+This allows us to generate a pleasant-looking and consistently formatted log.
 
 _Links:_
 `https://keepachangelog.com/en/1.0.0/`
