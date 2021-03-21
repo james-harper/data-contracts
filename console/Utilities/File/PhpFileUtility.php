@@ -204,7 +204,7 @@ class PhpFileUtility
         }, false);
 
         // get type
-        switch(gettype($value)) {
+        switch (gettype($value)) {
             case 'NULL':
                 $type = null;
                 break;
@@ -220,7 +220,9 @@ class PhpFileUtility
                 break;
             default:
                 $type = gettype($value);
-                if ($type === 'array') { $value = json_encode($value); }
+                if ($type === 'array') {
+                    $value = json_encode($value);
+                }
         }
 
         // Make value printable
@@ -246,7 +248,7 @@ class PhpFileUtility
         ];
 
         $blocks[$position - 1] = implode(PHP_EOL, $propertyBlock);
-         // Get the content of the blocks that we initially skipped:
+        // Get the content of the blocks that we initially skipped:
         // OPENING_TAG, NAMESPACE, IMPORTS
         $topBlocks = array_slice($this->blocks, 0, $offset);
         // Combine blocks to get full file contents
