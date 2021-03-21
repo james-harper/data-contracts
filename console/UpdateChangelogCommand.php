@@ -148,7 +148,7 @@ class UpdateChangelogCommand extends BaseCommand
     private function addDate(Collection $date) : array
     {
         $dateString = $date->first()['date'];
-        $this->log[] = "## [Unreleased] - $dateString";
+        $this->log[] = "## [1.0.0] - $dateString";
         $this->log[] = '';
 
         $added = [];
