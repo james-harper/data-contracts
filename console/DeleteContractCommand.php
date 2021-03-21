@@ -7,6 +7,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use DataContracts\Console\Utilities\File\PhpFileUtility;
 use DataContracts\Console\Utilities\Formatting\ConsoleOutput;
 
 /**
@@ -152,16 +153,11 @@ class DeleteContractCommand extends BaseCommand
         $test = $this->loadFile($testFile);
         $contract = $name . 'Contract';
 
+        // Remove any imports of this data contract
+        $test = PhpFileUtility::removeImportStatement($test, $contract);
+
         // Get each block of code within the file
         $blocks = explode(PHP_EOL . PHP_EOL, $test);
-
-        // Remove any imports of this data contract
-        // block 2 = imports; 1 = namespace, 0 = opening tag
-        $imports = explode(PHP_EOL, $blocks[2]);
-        $imports = array_filter($imports, function ($import) use ($contract) {
-            return !Str::contains($import, $contract);
-        });
-        $blocks[2] = implode(PHP_EOL, $imports);
 
         // Remove any blocks that are tests containing the schema in question
         $blocks = array_filter($blocks, function ($block) use ($contract) {

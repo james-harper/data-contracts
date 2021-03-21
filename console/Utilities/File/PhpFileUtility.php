@@ -134,10 +134,10 @@ class PhpFileUtility
      */
     public function removeImport(string $import) : self
     {
-        $importStatement = "use $import;";
         $imports = explode(PHP_EOL, $this->blocks[self::BLOCK_IMPORTS]);
-        $imports = array_filter($imports, function ($import) use ($importStatement) {
-            return !Str::contains($import, $importStatement);
+        $imports = array_filter($imports, function ($statement) use ($import) {
+            $importStatement = "use $import;";
+            return !Str::contains($statement, [$importStatement, $import]);
         });
 
         $this->blocks[self::BLOCK_IMPORTS] = implode(PHP_EOL, $imports);
