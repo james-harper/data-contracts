@@ -27,6 +27,7 @@ class Kernel
         RunLinterCommand::class => ['lint', 'cs-fixer'],
         MakePatternCommand::class => ['pattern', 'formatting', 'make:formatting'],
         DeleteContractCommand::class => ['delete', 'remove', 'delete:schema'],
+        UpdateChangelogCommand::class => ['changelog', 'make:log', 'generate:log'],
     ];
 
     /** @var Application $app Console application instance */
