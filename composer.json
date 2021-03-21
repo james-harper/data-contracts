@@ -3,7 +3,7 @@
   "description": "Creating shareable data contracts based on JSON schema",
   "type": "library",
   "require": {
-    "php": "^7.3|^8.0",
+    "php": "^7.4|^8.0",
     "illuminate/cache": "^8.12",
     "illuminate/container": "^8.12",
     "illuminate/database": "^8.12",
